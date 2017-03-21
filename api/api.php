@@ -1,5 +1,8 @@
 <?php
-
+header('Access-Control-Allow-Origin: http://localhost:8383');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+//below allows access to all
+//header('Access-Control-Allow-Origin: *');
 /*
  * API front controller.
  */
@@ -30,4 +33,4 @@ class Api {
 }
 
 $api = new Api();
-echo $api->bootstrap();
+$api->bootstrap();
