@@ -1,9 +1,10 @@
 <?php
 //Matt
-class VideoLike {
+class Video_Like {
     public $video_like_id;
     public $user_id;
     public $video_id;
+    
     function getVideo_like_id() {
         return $this->video_like_id;
     }

@@ -1,6 +1,14 @@
 <?php
 //Matt 
 class Comment {
+    public $comment_id;
+    public $user_id;
+    public $video_id;
+    public $parent_id;
+    public $comment_string;
+    public $time;
+    public $comment_rating;
+    
     function getComment_id() {
         return $this->comment_id;
     }
@@ -48,6 +56,15 @@ class Comment {
     function setComment_rating($comment_rating) {
         $this->comment_rating = $comment_rating;
     }
+    
+    function getComment_string() {
+        return $this->comment_string;
+    }
+
+    function setComment_string($comment_string) {
+        $this->comment_string = $comment_string;
+    }
+
 
 
 }

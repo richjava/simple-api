@@ -4,6 +4,7 @@ class Tag {
     public $tagId;
     public $tag_string;
     public $tag_metaphone;
+    
     function getTagId() {
         return $this->tagId;
     }

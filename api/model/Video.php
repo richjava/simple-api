@@ -12,7 +12,8 @@ class Video {
     public $video_rating;
     public $date_posted;
     public $length;
-    public $category;    
+    public $category;   
+    
     function getVideo_id() {
         return $this->video_id;
     }
