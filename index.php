@@ -19,81 +19,82 @@
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script>
-	    $(function() {
+            $(function () {
                 var itemId = 2,
-                userId = 3,
-                itemsUrl = 'api/items',
-                singleItemUrl = 'api/items/'+itemId,
-                itemsByUserUrl = 'api/users/' + userId + '/items';
-                
-		$("#get-all").on("click", function() {
-		    var requestConfig = {
-			url: itemsUrl,
-			type: "GET",
-			dataType: "json"
-		    };
+                        userId = 3,
+                        itemsUrl = 'api/videos',
+                        singleItemUrl = 'api/videos/' + itemId,
+                        itemsByUserUrl = 'api/users/' + userId + '/items';
+
+                $("#get-all").on("click", function () {
+                    var requestConfig = {
+                        url: itemsUrl,
+                        type: "GET",
+                        dataType: "json"
+                    };
                     console.log("Attempting get of all items");
                     sendRequest(requestConfig);
-		});
-                $("#get-one").on("click", function() {
-		    var requestConfig = {
-			url: singleItemUrl,
-			type: "GET",
-			dataType: "json",
-			data: {id: itemId}
-		    };
+                });
+                $("#get-one").on("click", function () {
+                    var requestConfig = {
+                        url: singleItemUrl,
+                        type: "GET",
+                        dataType: "json",
+                        data: {id: itemId}
+                    };
                     console.log("Attempting get of item with id of: " + itemId);
                     sendRequest(requestConfig);
-		});
-                $("#get-all-by-user").on("click", function() {
-		    var requestConfig = {
-			url: itemsByUserUrl,
-			type: "GET",
-			dataType: "json",
-			data: {id: userId}
-		    };
+                });
+                $("#get-all-by-user").on("click", function () {
+                    var requestConfig = {
+                        url: itemsByUserUrl,
+                        type: "GET",
+                        dataType: "json",
+                        data: {id: userId}
+                    };
                     console.log("Attempting get of items of a user with id of: " + userId);
                     sendRequest(requestConfig);
-		});
-                $("#create").on("click", function() {
-		    var requestConfig = {
-			url: itemsUrl,
-			type: "POST",
-			dataType: "json",
-			data: {name: 'New item name', 'userId': 3}
-		    };
+                });
+                $("#create").on("click", function () {
+                    var requestConfig = {
+                        url: itemsUrl,
+                        type: "POST",
+                        dataType: "json",
+                        data: {name: 'New item name', 'userId': 3}
+                    };
                     console.log("Attempting creation of item");
                     sendRequest(requestConfig);
-		});
-                $("#update").on("click", function() {
-		    var requestConfig = {
-			url: singleItemUrl,
-			type: 'PUT',
-			dataType: 'json',
-			data: {name: 'Updated item name'}
-		    };
+                });
+                $("#update").on("click", function () {
+                    var requestConfig = {
+                        url: singleItemUrl,
+                        type: 'PUT',
+                        dataType: 'json',
+                        data: {name: 'Updated item name'}
+                    };
                     console.log("Attempting update of item with id of: " + itemId);
                     sendRequest(requestConfig);
-		});
-                $("#delete").on("click", function() {
-		    var requestConfig = {
-			url: singleItemUrl,
-			type: "DELETE"
-		    };
+                });
+                $("#delete").on("click", function () {
+                    var requestConfig = {
+                        url: singleItemUrl,
+                        type: "DELETE"
+                    };
                     console.log("Attempting deletion of item with id of: " + itemId);
                     sendRequest(requestConfig);
-		});
-                
-	    });
-	    function sendRequest(requestConfig){
-		    var request = $.ajax(requestConfig);
-		    request.done(function(data) {
-			console.log(data);
-		    });
-		    request.fail(function(jqXHR, textStatus) {
-			console.log("Request failed: " + textStatus);
-		    });
-	    }           
-	</script>
+                });
+
+            });
+            function sendRequest(requestConfig) {
+                console.log(requestConfig);
+                var request = $.ajax(requestConfig);
+                request.done(function (data) {
+                    console.log(data);
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    console.log("Request failed: " + textStatus);
+                });
+            }
+        </script>
     </body>
 </html>

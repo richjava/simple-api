@@ -1,2 +1,5 @@
-# simple-api
-A simple example of an API using PHP.
+# SRB-api
+
+API for SRB using PHP.
+
+*******************************************Video Methods*******************************************
