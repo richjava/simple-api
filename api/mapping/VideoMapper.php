@@ -28,7 +28,7 @@ class VideoMapper {
             $video->setTitle($properties['title']);
         }
         if (array_key_exists('description', $properties)) {
-            $video->setStart_long($properties['description']);
+            $video->setDescription($properties['description']);
         }
         if (array_key_exists('geo_data', $properties)) {
             $video->setGeo_data($properties['geo_data']);

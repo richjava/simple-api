@@ -13,10 +13,16 @@ class VideoDao extends Dao {
     //Function to find video by ID
     public function getVideoById($id, $db) {
         //Initialise SQL
-        $sql = 'SELECT * FROM video WHERE VideoId =' . $id;
-        //Query the DB using the above SQL
-        $result = $this->query($sql)->fetch();
-        //if clinic not found return null
+        $sql = 'SELECT * FROM videos WHERE video_id = :id';
+        //Query the DB using the above Prepared Statement
+        $statement = $db->prepare($sql);
+        //bind id to prepared statement
+        $statement->bindParam(':id', $id);
+        //Execute prepared statement
+        $statement->execute();
+        //Fetch Result as assoc array
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        //if video not found return null
         if ($result === FALSE) {
             return null;
         }
@@ -26,6 +32,32 @@ class VideoDao extends Dao {
             VideoMapper::map($video, $result);
             return $video;
         }
+    }
+
+    //Function to find all videos by ID
+    public function getVideosByUserId($id, $db) {
+        //Initialise SQL
+        $sql = 'SELECT * FROM videos WHERE user_id = :id';
+        //Query the DB using the above Prepared Statement
+        $statement = $db->prepare($sql);
+        //bind id to prepared statement
+        $statement->bindParam(':id', $id);
+        //Execute prepared statement
+        $statement->execute();
+        //Fetch Result as assoc array
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        //if videos not found return null
+        if ($result === FALSE) {
+            return null;
+        }
+        //Map each array to a video object and return the result
+        $videos = array();
+        foreach ($result as $row) {
+            $video = new Video;
+            VideoMapper::map($video, $row);
+            $videos[] = $row;
+        }
+        return $videos;
     }
 
 }

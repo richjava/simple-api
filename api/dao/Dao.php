@@ -17,6 +17,7 @@ class Dao {
         //otherwise attempt to establish a connection using supplied parameters
         try {
             $this->db = new PDO($dsn, $username, $password);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $ex) {
             throw new Exception('database connection error');
         }
@@ -24,13 +25,15 @@ class Dao {
         return $this->db;
     }
 
-    private static function throwDbError(array $params) {
-        throw new Exception('DB error[' . $errorInfo[0] . ',' . $errorInfo[1] . ']:' . errorInfo[2]);
-    }
+//    private static function throwDbError(array $params) {
+//        throw new Exception('DB error[' . $errorInfo[0] . ',' . $errorInfo[1] . ']:' . errorInfo[2]);
+//    }
 
-    public function executeStatement(PDOStatement $statement, array $params) {
-        if (!$statement->execute($params)) {
-            self::throwDbError($this->getDb()->errorInfo());
+    public function executeStatement(PDOStatement $statement) {
+        try {
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
         }
     }
 
