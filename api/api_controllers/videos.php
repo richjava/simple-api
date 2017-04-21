@@ -9,7 +9,7 @@ class VideosApi {
     /**
      * Get all items or an item by id.
      * HTTP method: GET
-     * Endpoints:  api/items or api/items/[itemId]
+     * Endpoints:  api/videos/Id
      * @param int $id
      */
     function get($id = null) {
@@ -21,12 +21,6 @@ class VideosApi {
             //Get video by Id
             $video = $videoDao->getVideoById($id, $db);
             echo json_encode($video);
-        } else {
-//            //simulating getting items from db
-//            $item1 = (object) array('name' => 'Item 1 name', 'userId' => 1);
-//            $item2 = (object) array('name' => 'Item 2 name', 'userId' => 2);
-//            $items = array($item1, $item2);
-//            echo json_encode($items);
         }
     }
 
@@ -71,9 +65,9 @@ class VideosApi {
 //    }
 //
 //    /**
-//     * Get all items for a user.
+//     * Get all videos for a user.
 //     * HTTP method: GET
-//     * Endpoint: api/users/[userId]/items
+//     * Endpoint: api/users/videos/id
 //     * @param int $id
 //     */
     function users_videos($id) {
@@ -83,6 +77,26 @@ class VideosApi {
         $db = $videoDao->getDb();
         //Get video by Id
         $videos = $videoDao->getVideosByUserId($id, $db);
+        echo json_encode($videos);
+    }
+//     * Get all videos by lat long coordinates.
+//     * HTTP method: GET
+//     * Endpoint: api/latlong/videos/swLat/swLong/neLat/neLong
+//     * @param float $swLat float $swLong float $neLat float $neLong  
+//     */
+
+    function latlong_videos($swLat, $swLong ,$neLat , $neLong) {
+        //Get video from db
+        $videoDao = new VideoDao;
+        //Establish DB connection
+        $db = $videoDao->getDb();
+        //parameters need to be specified as doubles as otherwise the get passed as strings causing logic errors
+        $swLat = (double) $swLat;
+        $swLong = (double) $swLong;
+        $neLat = (double) $neLat;
+        $neLong = (double) $neLong;
+        //Query the databse
+        $videos = $videoDao->getVideosByLatLong($swLat, $swLong ,$neLat , $neLong, $db);
         echo json_encode($videos);
     }
 

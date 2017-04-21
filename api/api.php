@@ -9,27 +9,30 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
  * API front controller.
  */
 class Api {
-
     /**
      * Wire the incoming request to the API methods.
      */
     function bootstrap() {
         $requestParts = explode('/', $_GET['request']);
+        $params = array();
         if (!empty($requestParts[2])) {
-            //e.g http://www.example.com/users/12345/items
-            include('api_controllers/' . $requestParts[2] . '.php');
-            $className = ucfirst($requestParts[2]) . 'Api';
-            $methodName = $requestParts[0] . '_' . $requestParts[2];
-            $param = $requestParts[1];
+            //e.g. http://www.example.com/users/items/12345            
+            include('api_controllers/' . $requestParts[1] . '.php');
+            $className = ucfirst($requestParts[1]) . 'Api';
+            $methodName = $requestParts[0] . '_' . $requestParts[1];
+            //Create an array of parameters (Parameters will always be located after [2] in the $_GET array
+            for ($i = 2; $i < (sizeof($requestParts)); $i++){
+            $params[] = $requestParts[$i];            
+            }
         } else {
             //e.g http://www.example.com/items/12345
             include('api_controllers/' . $requestParts[0] . '.php');
             $className = ucfirst($requestParts[0]) . 'Api';
             $methodName = strtolower($_SERVER['REQUEST_METHOD']);
-            $param = !empty($requestParts[1]) ? $requestParts[1] : null;
+            $params[] = (!empty($requestParts[1]) ? $requestParts[1] : null);
         }
         $obj = new $className();
-        call_user_func(array($obj, $methodName), $param);
+        call_user_func_array(array($obj, $methodName), $params);
     }
 
 //    System config
@@ -37,7 +40,7 @@ class Api {
         //Load required classes
         spl_autoload_register(array($this, 'loadClass'));
     }
-    
+
     //Class loading function (called in init)
     public function loadClass($name) {
         //array of classes to be laoded
@@ -63,7 +66,7 @@ class Api {
             'TagMapper' => 'mapping/TagMapper.php',
             'UserMapper' => 'mapping/UserMapper.php',
             'VideoMapper' => 'mapping/VideoMapper.php',
-            'Video_LikeMapper' => 'mapping/Video_LikeMapper.php',           
+            'Video_LikeMapper' => 'mapping/Video_LikeMapper.php',
         );
         //Exception handler if class not found
         if (!array_key_exists($name, $classes)) {

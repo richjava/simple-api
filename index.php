@@ -12,7 +12,7 @@
             <h3>Videos</h3>            
             <button id="video_get-one" type="button">Get one</button>
             <button id="video_get-all-by-user" type="button">Get all for this user</button>
-<!--            <button id="video_create" type="button">Create</button>-->
+            <button id="video_get-all-by-lat-long" type="button">Get all by lat long</button>
 <!--            <button id="video_update" type="button">Update</button>-->
 <!--            <button id="video_delete" type="button">Delete</button>-->
             <p>----------------------------------------------</p>

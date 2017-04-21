@@ -60,6 +60,52 @@ class VideoDao extends Dao {
         return $videos;
     }
 
+    //Function to find all videos by lat, long  bounds
+    public function getVideosByLatLong($swLat, $swLong, $neLat, $neLong, $db) {
+//        var_dump($swLat, $swLong, $neLat, $neLong, $db);
+        //Initialise SQL        
+        $sql = 'SELECT * FROM videos WHERE
+        (CASE WHEN :swLatOne < :neLatOne       
+            THEN start_lat BETWEEN :swLatTwo AND :neLatTwo
+            ELSE start_lat BETWEEN :neLatThree AND :swLatThree
+        END) 
+        AND
+        (CASE WHEN :swLongOne < :neLongOne
+            THEN start_long BETWEEN :swLongTwo AND :neLongTwo
+            ELSE start_long BETWEEN :neLongThree AND :swLongThree
+        END)';
+        //Query the DB using the above Prepared Statement
+        $statement = $db->prepare($sql);
+        //bind lat long parameters to prepared statement, each value needs to be bound individually as bindParam will only bind the value to the first match. PDO::PARAM_INT needs to be specified as otherwise they get bound as strings and matching logic will fail        
+        $statement->bindParam(':swLatOne',      $swLat, PDO::PARAM_INT);
+        $statement->bindParam(':neLatOne',      $neLat, PDO::PARAM_INT);
+        $statement->bindParam(':swLatTwo',      $swLat, PDO::PARAM_INT);
+        $statement->bindParam(':neLatTwo',      $neLat, PDO::PARAM_INT);
+        $statement->bindParam(':neLatThree',    $neLat, PDO::PARAM_INT);
+        $statement->bindParam(':swLatThree',    $swLat, PDO::PARAM_INT);
+        $statement->bindParam(':swLongOne',     $swLong, PDO::PARAM_INT);
+        $statement->bindParam(':neLongOne',     $neLong, PDO::PARAM_INT);
+        $statement->bindParam(':swLongTwo',     $swLong, PDO::PARAM_INT);
+        $statement->bindParam(':neLongTwo',     $neLong, PDO::PARAM_INT);
+        $statement->bindParam(':neLongThree',   $neLong, PDO::PARAM_INT);
+        $statement->bindParam(':swLongThree',   $swLong, PDO::PARAM_INT);
+        //Execute prepared statement
+        $statement->execute();
+        //Fetch Result as assoc array
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        if ($result === FALSE) {
+            return null;
+        }
+        //Map each array to a video object and return the result
+        $videos = array();
+        foreach ($result as $row) {
+            $video = new Video;
+            VideoMapper::map($video, $row);
+            $videos[] = $row;
+        }
+        return $videos;
+    }
+
 }
 
 //End Matt 
