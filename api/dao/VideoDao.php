@@ -92,6 +92,7 @@ class VideoDao extends Dao {
         $statement->bindParam(':neLongTwo', $neLong, PDO::PARAM_INT);
         $statement->bindParam(':neLongThree', $neLong, PDO::PARAM_INT);
         $statement->bindParam(':swLongThree', $swLong, PDO::PARAM_INT);
+        
         //Execute prepared statement
         $statement->execute();
         //Fetch Result as assoc array

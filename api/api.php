@@ -1,6 +1,6 @@
 <?php
 
-header('Access-Control-Allow-Origin: http://localhost:8383');
+header('Access-Control-Allow-Origin: http://[::1]');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 
 //below allows access to all
@@ -9,6 +9,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
  * API front controller.
  */
 class Api {
+
     /**
      * Wire the incoming request to the API methods.
      */
@@ -21,8 +22,8 @@ class Api {
             $className = ucfirst($requestParts[1]) . 'Api';
             $methodName = $requestParts[0] . '_' . $requestParts[1];
             //Create an array of parameters (Parameters will always be located after [2] in the $_GET array
-            for ($i = 2; $i < (sizeof($requestParts)); $i++){
-            $params[] = $requestParts[$i];            
+            for ($i = 2; $i < (sizeof($requestParts)); $i++) {
+                $params[] = $requestParts[$i];
             }
         } else {
             //e.g http://www.example.com/items/12345
