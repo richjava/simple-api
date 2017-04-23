@@ -80,7 +80,8 @@ $(function () {
 function sendRequest(requestConfig) {
     console.log(requestConfig);
     var request = $.ajax(requestConfig);
-    request.done(function (data) {        
+    request.done(function (data) {
+//        var Jsonify = JSON.stringify(data);
         console.log(data);
     });
     request.fail(function (jqXHR, textStatus) {

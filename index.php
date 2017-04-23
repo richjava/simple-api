@@ -13,12 +13,16 @@
             <button id="video_get-one" type="button">Get one</button>
             <button id="video_get-all-by-user" type="button">Get all for this user</button>
             <button id="video_get-all-by-lat-long" type="button">Get all by lat long</button>
-<!--            <button id="video_update" type="button">Update</button>-->
-<!--            <button id="video_delete" type="button">Delete</button>-->
+            <form action="search.php" method="GET">
+                <input type="text" name="query" />
+                <input type="submit" value="Search" />
+            </form>
+            <!--            <button id="video_update" type="button">Update</button>-->
+            <!--            <button id="video_delete" type="button">Delete</button>-->
             <p>----------------------------------------------</p>
             <br>
-            
-            
+
+
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="QueryTest.js"></script>

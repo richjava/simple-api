@@ -13,6 +13,7 @@ class VideoDao extends Dao {
     //Function to find video by ID
     public function getVideoById($id, $db) {
         //Initialise SQL
+        $videos = array();
         $sql = 'SELECT * FROM videos WHERE video_id = :id';
         //Query the DB using the above Prepared Statement
         $statement = $db->prepare($sql);
@@ -30,6 +31,8 @@ class VideoDao extends Dao {
         else {
             $video = new Video;
             VideoMapper::map($video, $result);
+            //Standardising returned data
+            $videos[] = $video;
             return $video;
         }
     }
@@ -77,18 +80,18 @@ class VideoDao extends Dao {
         //Query the DB using the above Prepared Statement
         $statement = $db->prepare($sql);
         //bind lat long parameters to prepared statement, each value needs to be bound individually as bindParam will only bind the value to the first match. PDO::PARAM_INT needs to be specified as otherwise they get bound as strings and matching logic will fail        
-        $statement->bindParam(':swLatOne',      $swLat, PDO::PARAM_INT);
-        $statement->bindParam(':neLatOne',      $neLat, PDO::PARAM_INT);
-        $statement->bindParam(':swLatTwo',      $swLat, PDO::PARAM_INT);
-        $statement->bindParam(':neLatTwo',      $neLat, PDO::PARAM_INT);
-        $statement->bindParam(':neLatThree',    $neLat, PDO::PARAM_INT);
-        $statement->bindParam(':swLatThree',    $swLat, PDO::PARAM_INT);
-        $statement->bindParam(':swLongOne',     $swLong, PDO::PARAM_INT);
-        $statement->bindParam(':neLongOne',     $neLong, PDO::PARAM_INT);
-        $statement->bindParam(':swLongTwo',     $swLong, PDO::PARAM_INT);
-        $statement->bindParam(':neLongTwo',     $neLong, PDO::PARAM_INT);
-        $statement->bindParam(':neLongThree',   $neLong, PDO::PARAM_INT);
-        $statement->bindParam(':swLongThree',   $swLong, PDO::PARAM_INT);
+        $statement->bindParam(':swLatOne', $swLat, PDO::PARAM_INT);
+        $statement->bindParam(':neLatOne', $neLat, PDO::PARAM_INT);
+        $statement->bindParam(':swLatTwo', $swLat, PDO::PARAM_INT);
+        $statement->bindParam(':neLatTwo', $neLat, PDO::PARAM_INT);
+        $statement->bindParam(':neLatThree', $neLat, PDO::PARAM_INT);
+        $statement->bindParam(':swLatThree', $swLat, PDO::PARAM_INT);
+        $statement->bindParam(':swLongOne', $swLong, PDO::PARAM_INT);
+        $statement->bindParam(':neLongOne', $neLong, PDO::PARAM_INT);
+        $statement->bindParam(':swLongTwo', $swLong, PDO::PARAM_INT);
+        $statement->bindParam(':neLongTwo', $neLong, PDO::PARAM_INT);
+        $statement->bindParam(':neLongThree', $neLong, PDO::PARAM_INT);
+        $statement->bindParam(':swLongThree', $swLong, PDO::PARAM_INT);
         //Execute prepared statement
         $statement->execute();
         //Fetch Result as assoc array
@@ -104,6 +107,10 @@ class VideoDao extends Dao {
             $videos[] = $row;
         }
         return $videos;
+    }
+
+    function getVideosBySearchTerm() {
+        
     }
 
 }

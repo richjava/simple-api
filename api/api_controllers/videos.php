@@ -7,12 +7,12 @@
 class VideosApi {
 
     /**
-     * Get all items or an item by id.
+     * Get video by id.
      * HTTP method: GET
      * Endpoints:  api/videos/Id
      * @param int $id
      */
-    function get($id = null) {
+    function get($id) {
         if ($id) {
             //Get video from db
             $videoDao = new VideoDao;
@@ -22,6 +22,22 @@ class VideosApi {
             $video = $videoDao->getVideoById($id, $db);
             echo json_encode($video);
         }
+    }
+
+    /**
+     * Get videos by search term
+     * HTTP method: GET
+     * Endpoints:  api/search/videos/search_term
+     * @param string search_term
+     */
+    function search_video($search_term) {
+        //Get video from db
+        $videoDao = new VideoDao;
+        //Establish DB connection
+        $db = $videoDao->getDb();
+        //Get video by Id
+        $videos = $videoDao->getVideosBySearchTerm($search_term, $db);
+        echo json_encode($videos);
     }
 
 //    /**
@@ -79,13 +95,14 @@ class VideosApi {
         $videos = $videoDao->getVideosByUserId($id, $db);
         echo json_encode($videos);
     }
+
 //     * Get all videos by lat long coordinates.
 //     * HTTP method: GET
 //     * Endpoint: api/latlong/videos/swLat/swLong/neLat/neLong
 //     * @param float $swLat float $swLong float $neLat float $neLong  
 //     */
 
-    function latlong_videos($swLat, $swLong ,$neLat , $neLong) {
+    function latlong_videos($swLat, $swLong, $neLat, $neLong) {
         //Get video from db
         $videoDao = new VideoDao;
         //Establish DB connection
@@ -96,7 +113,7 @@ class VideosApi {
         $neLat = (double) $neLat;
         $neLong = (double) $neLong;
         //Query the databse
-        $videos = $videoDao->getVideosByLatLong($swLat, $swLong ,$neLat , $neLong, $db);
+        $videos = $videoDao->getVideosByLatLong($swLat, $swLong, $neLat, $neLong, $db);
         echo json_encode($videos);
     }
 
