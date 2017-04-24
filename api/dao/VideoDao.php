@@ -92,7 +92,7 @@ class VideoDao extends Dao {
         $statement->bindParam(':neLongTwo', $neLong, PDO::PARAM_INT);
         $statement->bindParam(':neLongThree', $neLong, PDO::PARAM_INT);
         $statement->bindParam(':swLongThree', $swLong, PDO::PARAM_INT);
-        
+
         //Execute prepared statement
         $statement->execute();
         //Fetch Result as assoc array
@@ -110,8 +110,29 @@ class VideoDao extends Dao {
         return $videos;
     }
 
-    function getVideosBySearchTerm() {
+    function getVideosBySearchTerm($search_term, $db) {
+        //Init SQL
+        $sql = 'SELECT * from videos WHERE title LIKE %:search_term% OR description LIKE %:search_term% OR category LIKE %:search_term%';
         
+        //Query the DB using the above Prepared Statement
+        $statement = $db->prepare($sql);
+        $statement->bindParam(':search_term', $search_term, PDO::PARAM_STR);     
+        
+        //Execute prepared statement
+        $statement->execute();
+        //Fetch Result as assoc array
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);        
+        if ($result === FALSE) {
+            return null;
+        }
+        //Map each array to a video object and return the result
+        $videos = array();
+        foreach ($result as $row) {
+            $video = new Video;
+            VideoMapper::map($video, $row);
+            $videos[] = $row;
+        }
+        return $videos;
     }
 
 }

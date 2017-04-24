@@ -1,5 +1,5 @@
 //Matt
-$(function() {
+$(function () {
 
     var itemId = 2,
             userId = 1,
@@ -17,7 +17,7 @@ $(function() {
             + '/'
             + neLong;
 
-    $("#video_get-one").on("click", function() {
+    $("#video_get-one").on("click", function () {
         var requestConfig = {
             url: singleVideoUrl,
             type: "GET",
@@ -27,7 +27,7 @@ $(function() {
         console.log("Attempting get of item with id of: " + itemId);
         sendRequest(requestConfig);
     });
-    $("#video_get-all-by-user").on("click", function() {
+    $("#video_get-all-by-user").on("click", function () {
         var requestConfig = {
             url: videosByUserUrl,
             type: "GET",
@@ -37,7 +37,7 @@ $(function() {
         console.log("Attempting get of items of a user with id of: " + userId);
         sendRequest(requestConfig);
     });
-    $("#video_get-all-by-lat-long").on("click", function() {
+    $("#video_get-all-by-lat-long").on("click", function () {
         var requestConfig = {
             url: videosByLatLongUrl,
             type: "GET",
@@ -45,6 +45,17 @@ $(function() {
             data: {swLat: swLat, swLong: swLong, neLat: neLat, neLong: neLong}
         };
         console.log("Attempting get videos by lat long coordinates: " + userId);
+        sendRequest(requestConfig);
+    });
+    $("#video_search_button").on("click", function () {
+        var search_term = $("#video_search_textbox").val();
+        search_term=search_term.replace(/ /g,"_");
+        var requestConfig = {
+            url: "api/search/videos/" + search_term,
+            type: "GET",
+            dataType: "json"
+        };
+        console.log("Searhing database for videos conaining: " + search_term);
         sendRequest(requestConfig);
     });
 //    $("#create").on("click", function () {
@@ -80,11 +91,11 @@ $(function() {
 function sendRequest(requestConfig) {
     console.log(requestConfig);
     var request = $.ajax(requestConfig);
-    request.done(function(data) {
+    request.done(function (data) {
 //        var Jsonify = JSON.stringify(data);
         console.log(data);
     });
-    request.fail(function(jqXHR, textStatus) {
+    request.fail(function (jqXHR, textStatus) {
         console.log("Request failed: " + textStatus);
     });
 }
