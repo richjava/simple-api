@@ -51,7 +51,7 @@ $(function () {
         var search_term = $("#video_search_textbox").val();
         search_term=search_term.replace(/ /g,"_");
         var requestConfig = {
-            url: "api/search/videos/" + search_term,
+            url: "api/searchByTitle/videos/" + search_term,
             type: "GET",
             dataType: "json"
         };

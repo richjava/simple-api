@@ -110,31 +110,41 @@ class VideoDao extends Dao {
         return $videos;
     }
 
-    function getVideosBySearchTerm($search_term, $db) {
-        //Init SQL
-        $sql = 'SELECT * from videos WHERE title LIKE %:search_term% OR description LIKE %:search_term% OR category LIKE %:search_term%';
-        
-        //Query the DB using the above Prepared Statement
-        $statement = $db->prepare($sql);
-        $statement->bindParam(':search_term', $search_term, PDO::PARAM_STR);     
-        
-        //Execute prepared statement
-        $statement->execute();
-        //Fetch Result as assoc array
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);        
-        if ($result === FALSE) {
-            return null;
-        }
+    function searchVideosByTitle($search_array, $db) {
         //Map each array to a video object and return the result
         $videos = array();
-        foreach ($result as $row) {
-            $video = new Video;
-            VideoMapper::map($video, $row);
-            $videos[] = $row;
+        foreach ($search_array as $word) {
+            if (strlen($word) < 2) {
+                continue;
+            } else {
+                //Add wildcards
+                $search_term = '%' . $word . '%';
+                //Init SQL
+                $sql = 'SELECT * from videos WHERE title LIKE :search_term';
+                //Query the DB using the above Prepared Statement
+                $statement = $db->prepare($sql);
+                //bind parameter
+                $statement->bindParam(':search_term', $search_term, PDO::PARAM_STR);
+                //Execute prepared statement
+                $statement->execute();
+                //Fetch Result as assoc array
+                $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                //Map each result to a video object
+                foreach ($result as $row) {
+                    $video = new Video;
+                    VideoMapper::map($video, $row);
+                    $videos[] = $row;
+                }
+            }
+            if ($result === FALSE) {
+                return null;
+            }
         }
         return $videos;
     }
-
+    function mapResultsArray($result){
+        
+    }
 }
 
 //End Matt 

@@ -1,6 +1,6 @@
 <?php
 
-//header('Access-Control-Allow-Origin: http://[::1]');
+header('Access-Control-Allow-Origin: http://[::1]');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 
 //below allows access to all

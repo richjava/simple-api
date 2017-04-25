@@ -15,7 +15,7 @@
             <button id="video_get-all-by-lat-long" type="button">Get all by lat long</button>
             <br>
 
-            <input id="video_search_textbox" type="text" name="query" />
+            <input id="video_search_textbox" type="text" name="query"/>
             <button id="video_search_button">Search</button>
 
 

@@ -30,16 +30,14 @@ class VideosApi {
      * Endpoints:  api/search/videos/search_term
      * @param string search_term
      */
-    function search_videos($search_term) {
+    function searchByTitle_videos($search_term) {
         //Get video from db
         $videoDao = new VideoDao;
         //Establish DB connection
         $db = $videoDao->getDb();
         //Get video by Id
-        $keywords = explode('_', $search_term);
-        var_dump($keywords);
-        die();
-        $videos = $videoDao->getVideosBySearchTerm($search_term, $db);
+        $search_array = explode('_', $search_term);
+        $videos = $videoDao->searchVideosByTitle($search_array, $db);
         echo json_encode($videos);
     }
 

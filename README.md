@@ -22,7 +22,9 @@ Endpoint: api/latlong/videos/swLat/swLong/neLat/neLong
 @param float $swLat float $swLong float $neLat float $neLong
 
 
-Get videos by search term
+Search videos by title term
 HTTP method: GET
-Endpoints:  api/search/videos/search_term
+Endpoints:  api/searchByTitle/videos/search_term
 @param string search_term
+
+
